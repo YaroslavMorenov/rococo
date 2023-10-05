@@ -5,6 +5,7 @@ export const authClient = {
     getToken: async(url: string) => {
         const response = await fetch(`${BASE_URL}/${url}`, {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": `Basic ${Buffer.from("client:secret").toString("base64")}`,
@@ -15,5 +16,18 @@ export const authClient = {
         }
         return response.json();
     },
+    logout: async() => {
+        const response = await fetch(`${BASE_URL}/logout`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${sessionStorage.getItem("id_token")}`,
+            }
+        });
+        if (!response.ok) {
+            throw new Error("Failed logout");
+        }
+    }
 }
 
