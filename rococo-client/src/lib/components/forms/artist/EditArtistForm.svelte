@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Avatar, getModalStore, getToastStore, type ToastSettings} from "@skeletonlabs/skeleton";
+    import {Avatar, getModalStore} from "@skeletonlabs/skeleton";
     import ModalButtonGroup from "../../ModalButtonGroup.svelte";
     import { apiClient } from "$lib/helpers/apiClient";
     import { blobToBase64 } from "$lib/helpers/imageUtils";
@@ -13,7 +13,6 @@
     import type {ArtistType} from "$lib/types/Artist";
 
     const modalStore = getModalStore();
-    const toastStore = getToastStore();
 
     export let parent: any;
     let files: FileList;
@@ -45,11 +44,6 @@
         validateForm(name, biography);
         if(!Object.values($artistsFormErrorStore).some(v => v.length > 0)) {
             const res = await apiClient.updateArtist({id, name, biography, photo});
-            const t: ToastSettings = {
-                message: `Вы обновили художника: ${name}`,
-                background: 'variant-filled-primary',
-            };
-            toastStore.trigger(t);
             if($modalStore[0].response) {
                 $modalStore[0].response(res);
             }
@@ -59,7 +53,7 @@
 </script>
 
 {#if $modalStore[0]}
-    <FormWrapper modalTitle={$modalStore[0].title ?? ""} modalBody={$modalStore[0].body ?? ""}>
+    <FormWrapper modalTitle="Редактировать художника" modalBody="">
         <form class="modal-form space-y-4" on:submit={onSubmit} enctype="multipart/form-data">
             <Avatar src={photo} width="w-48" rounded="rounded-full" class="mx-auto"/>
             <ImageInput

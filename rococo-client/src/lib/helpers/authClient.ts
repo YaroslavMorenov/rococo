@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:9000';
+const BASE_URL = `${import.meta.env.VITE_AUTH_URL}`;
 import {Buffer} from "buffer";
 
 export const authClient = {
@@ -22,7 +22,7 @@ export const authClient = {
             credentials: "include",
             headers: {
                 "Content-type": "application/json",
-                "Authorization": `Bearer ${sessionStorage.getItem("id_token")}`,
+                "Authorization": `Bearer ${localStorage.getItem("id_token")}`,
             }
         });
         if (!response.ok) {
