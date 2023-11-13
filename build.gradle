@@ -2,12 +2,31 @@ plugins {
     id 'java'
 }
 
-group = 'guru.qa'
+group = 'org.rococo'
 sourceCompatibility = '17'
 
 subprojects {
     repositories {
         mavenCentral()
+        maven {
+            url = uri("https://repo1.maven.org/maven2/")
+        }
+    }
+    ext {
+        dockerHubName = "yaroslavmorenov"
+        lombokVersion = '1.18.24'
+        springKafka = '3.0.11'
+        postgresDriverVersion = '42.6.0'
+        oauth2AuthorizationServerVersion = '1.1.2'
+        jsr305Version = '3.0.2'
+        registry = 'yaroslavmorenov'
+
+        dockerImage = System.getProperty("os.arch") == "aarch64" || System.getProperty("os.arch") == "arm64"
+                ? "arm64v8/eclipse-temurin:19-jre"
+                : "eclipse-temurin:19-jre"
+        dockerArch = System.getProperty("os.arch") == "aarch64" || System.getProperty("os.arch") == "arm64"
+                ? "arm64"
+                : "amd64"
     }
 }
 

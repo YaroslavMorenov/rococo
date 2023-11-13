@@ -5,6 +5,7 @@ plugins {
     id 'com.google.cloud.tools.jib' version '3.3.2'
 }
 
+group = 'org.rococo'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
@@ -14,10 +15,11 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.security:spring-security-oauth2-authorization-server:${project.ext.oauth2AuthorizationServerVersion}"
+    implementation "org.springframework.kafka:spring-kafka:${project.ext.springKafka}"
     implementation "com.google.code.findbugs:jsr305:${project.ext.jsr305Version}"
     annotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
     compileOnly "org.projectlombok:lombok:${project.ext.lombokVersion}"
-    runtimeOnly "mysql:mysql-connector-java:${project.ext.mysqlDriverVersion}"
+    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -25,7 +27,7 @@ dependencies {
 jib {
     container {
         ports = ['9000']
-        jvmFlags = ["-Dspring.profiles.active=${System.env.PROFILE}"]
+        jvmFlags = ["-Dspring.profiles.active=docker"]
         creationTime = 'USE_CURRENT_TIMESTAMP'
     }
     from {
@@ -38,8 +40,14 @@ jib {
         }
     }
     to {
-        image = "${project.ext.registry}/${project.name}"
+        image = "${project.ext.dockerHubName}/${project.name}"
         tags = ['latest', "${project.version}"]
+    }
+}
+
+tasks.register('printVersion') {
+    doLast {
+        println project.version
     }
 }
 

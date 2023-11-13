@@ -1,0 +1,64 @@
+server:
+  port: 8080
+  error:
+    include:
+      message: true
+
+spring:
+  application:
+    name: rococo-gateway
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+#    org.springframework.boot.autoconfigure: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'local'
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: 'http://127.0.0.1:9000'
+rococo-userdata:
+  base-uri: 'http://127.0.0.1:8089'
+rococo-artist:
+  base-uri: 'http://127.0.0.1:8095'
+rococo-museum:
+  base-uri: 'http://127.0.0.1:8096'
+rococo-country:
+  base-uri: 'http://127.0.0.1:8097'
+rococo-painting:
+  base-uri: 'http://127.0.0.1:8098'
+rococo-front:
+  base-uri: 'http://127.0.0.1:3000'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: 'docker'
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: 'http://auth.rococo.dc:9000'
+rococo-userdata:
+  base-uri: 'http://userdata.rococo.dc:8089'
+rococo-artist:
+  base-uri: 'http://artist.rococo.dc:8095'
+rococo-museum:
+  base-uri: 'http://museum.rococo.dc:8096'
+rococo-country:
+  base-uri: 'http://country.rococo.dc:8097'
+rococo-painting:
+  base-uri: 'http://painting.rococo.dc:8098'
+rococo-front:
+  base-uri: 'http://client.rococo.dc'
+---

@@ -1,0 +1,175 @@
+version: '3.9'
+
+services:
+  rococo-db:
+    container_name: rococo-db
+    image: postgres:15.1
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - rococo:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - rococo-network
+    dns_search: .
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.3.2
+    expose:
+      - "2181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+    networks:
+      - rococo-network
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:7.3.2
+    expose:
+      - "9092"
+    depends_on:
+      zookeeper:
+        condition: service_started
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+    networks:
+      - rococo-network
+
+  auth.rococo.dc:
+    container_name: auth.rococo.dc
+    image: ${PREFIX}/rococo-auth:latest
+    ports:
+      - "9000:9000"
+    healthcheck:
+      test: "wget --spider http://localhost:9000/actuator/health || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+    depends_on:
+      rococo-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    networks:
+      - rococo-network
+    dns_search: .
+
+  gateway.rococo.dc:
+    container_name: gateway.rococo.dc
+    image: ${PREFIX}/rococo-gateway:latest
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: "wget --spider http://localhost:8080/actuator/health || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+    depends_on:
+      auth.rococo.dc:
+        condition: service_healthy
+    networks:
+      - rococo-network
+    dns_search: .
+
+  userdata.rococo.dc:
+    container_name: userdata.rococo.dc
+    image: ${PREFIX}/rococo-userdata:latest
+    expose:
+      - "8089"
+    restart: always
+    depends_on:
+      auth.rococo.dc:
+        condition: service_healthy
+    networks:
+      - rococo-network
+    dns_search: .
+
+  artist.rococo.dc:
+      container_name: artist.rococo.dc
+      image: ${PREFIX}/rococo-artist:latest
+      expose:
+        - "8095"
+      restart: always
+      depends_on:
+        auth.rococo.dc:
+          condition: service_healthy
+      networks:
+        - rococo-network
+      dns_search: .
+
+  museum.rococo.dc:
+        container_name: museum.rococo.dc
+        image: ${PREFIX}/rococo-museum:latest
+        expose:
+          - "8096"
+        restart: always
+        depends_on:
+          auth.rococo.dc:
+            condition: service_healthy
+        networks:
+          - rococo-network
+        dns_search: .
+
+  country.rococo.dc:
+        container_name: country.rococo.dc
+        image: ${PREFIX}/rococo-country:latest
+        expose:
+          - "8097"
+        restart: always
+        depends_on:
+          auth.rococo.dc:
+            condition: service_healthy
+        networks:
+          - rococo-network
+        dns_search: .
+
+  painting.rococo.dc:
+          container_name: painting.rococo.dc
+          image: ${PREFIX}/rococo-painting:latest
+          expose:
+            - "8098"
+          restart: always
+          depends_on:
+            auth.rococo.dc:
+              condition: service_healthy
+          networks:
+            - rococo-network
+          dns_search: .
+
+  client.rococo.dc:
+    container_name: client.rococo.dc
+    image: ${PREFIX}/rococo-client:latest
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      gateway.rococo.dc:
+        condition: service_healthy
+    networks:
+      - rococo-network
+    dns_search: .
+
+volumes:
+  rococo:
+    external: true
+
+networks:
+  rococo-network:
+    driver: bridge
