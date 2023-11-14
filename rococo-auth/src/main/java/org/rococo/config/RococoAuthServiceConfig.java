@@ -59,13 +59,11 @@ public class RococoAuthServiceConfig {
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());    // Enable OpenID Connect 1.0
 
-        http.exceptionHandling(exceptions ->
-                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-                )
+        http.exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
                 .oauth2ResourceServer(rs -> rs.jwt(Customizer.withDefaults()));
 
         corsCustomizer.corsCustomizer(http);
-        return http.formLogin(Customizer.withDefaults()).build();
+        return http.build();
     }
 
     @Bean
