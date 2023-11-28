@@ -1,11 +1,11 @@
 package org.rococo.controller;
 
-import org.rococo.model.RegistrationModel;
-import org.rococo.model.UserJson;
-import org.rococo.service.UserService;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.rococo.model.RegistrationModel;
+import org.rococo.model.UserJson;
+import org.rococo.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -200,4 +200,4 @@ bash docker-compose-e2e.sh
 
 #### 3. [Selenoid UI](http://localhost:9090/)
 
-#### 4. [Allure](http://localhost:5050/allure-docker-service/projects/rococo-e-2-e-tests/reports/latest/index.html)
+#### 4. [Allure](http://localhost:5050/allure-docker-service/projects/rococo-e2e-tests/reports/latest/index.html)

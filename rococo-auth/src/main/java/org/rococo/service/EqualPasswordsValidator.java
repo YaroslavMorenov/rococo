@@ -1,9 +1,9 @@
 package org.rococo.service;
 
-import org.rococo.model.EqualPasswords;
-import org.rococo.model.RegistrationModel;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.rococo.model.EqualPasswords;
+import org.rococo.model.RegistrationModel;
 
 public class EqualPasswordsValidator implements ConstraintValidator<EqualPasswords, RegistrationModel> {
     @Override

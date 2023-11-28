@@ -17,7 +17,7 @@ if [ ! -z "$docker_images" ]; then
 fi
 
 echo "### Build backend images ###"
-bash ./gradlew -Pskipjaxb jibDockerBuild
+bash ./gradlew -Pskipjaxb jibDockerBuild -x :rococo-e2e-tests:test
 cd rococo-client || exit
 echo "### Build frontend image ###"
 docker build -t ${IMAGE_PREFIX}/rococo-client:${FRONT_VERSION} -t ${IMAGE_PREFIX}/rococo-client:latest .

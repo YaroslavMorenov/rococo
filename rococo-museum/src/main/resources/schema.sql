@@ -13,3 +13,5 @@ create table if not exists "museum"
 
 alter table "museum"
     owner to postgres;
+
+delete from "museum";

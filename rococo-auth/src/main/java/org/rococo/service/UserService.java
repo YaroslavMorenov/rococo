@@ -1,10 +1,10 @@
 package org.rococo.service;
 
+import jakarta.annotation.Nonnull;
 import org.rococo.data.Authority;
 import org.rococo.data.AuthorityEntity;
 import org.rococo.data.UserEntity;
 import org.rococo.data.repository.UserRepository;
-import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

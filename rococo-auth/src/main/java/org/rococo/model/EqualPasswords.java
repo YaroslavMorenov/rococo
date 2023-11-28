@@ -1,8 +1,8 @@
 package org.rococo.model;
 
-import org.rococo.service.EqualPasswordsValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import org.rococo.service.EqualPasswordsValidator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

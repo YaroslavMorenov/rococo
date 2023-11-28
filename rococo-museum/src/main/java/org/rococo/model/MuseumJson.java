@@ -45,6 +45,7 @@ public class MuseumJson {
         entity.setDescription(description);
         entity.setPhoto(photo != null ? photo.getBytes(StandardCharsets.UTF_8) : null);
         entity.setCity(geo.city);
+        entity.setCountryId(geo.country.getId());
         return entity;
     }
 }

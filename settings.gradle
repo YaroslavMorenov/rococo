@@ -6,4 +6,5 @@ include 'rococo-artist'
 include 'rococo-museum'
 include 'rococo-country'
 include 'rococo-painting'
+include 'rococo-e2e-tests'
 

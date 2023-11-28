@@ -25,7 +25,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: 'http://127.0.0.1:9000'
+          issuer-uri: 'http://127.0.0.1:9050'
 rococo-userdata:
   base-uri: 'http://127.0.0.1:8089'
 rococo-artist:
@@ -48,7 +48,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: 'http://auth.rococo.dc:9000'
+          issuer-uri: 'http://auth.rococo.dc:9050'
 rococo-userdata:
   base-uri: 'http://userdata.rococo.dc:8089'
 rococo-artist:

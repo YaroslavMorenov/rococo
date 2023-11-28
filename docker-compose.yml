@@ -54,9 +54,9 @@ services:
     container_name: auth.rococo.dc
     image: ${PREFIX}/rococo-auth:latest
     ports:
-      - "9000:9000"
+      - "9050:9050"
     healthcheck:
-      test: "wget --spider http://localhost:9000/actuator/health || exit 1"
+      test: "wget --spider http://localhost:9050/actuator/health || exit 1"
       interval: 5s
       timeout: 5s
       retries: 10

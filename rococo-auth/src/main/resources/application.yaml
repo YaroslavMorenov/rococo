@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 9050
   # ONLY FOR TESTING
   servlet:
     session:
@@ -60,7 +60,7 @@ spring:
 rococo-front:
   base-uri: 'http://127.0.0.1:3000'
 rococo-auth:
-  base-uri: 'http://127.0.0.1:9000'
+  base-uri: 'http://127.0.0.1:9050'
 ---
 spring:
   config:
@@ -76,5 +76,5 @@ spring:
 rococo-front:
   base-uri: 'http://client.rococo.dc'
 rococo-auth:
-  base-uri: 'http://auth.rococo.dc:9000'
+  base-uri: 'http://auth.rococo.dc:9050'
 ---
