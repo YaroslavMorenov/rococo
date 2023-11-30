@@ -22,27 +22,6 @@ import static org.rococo.util.FakerUtils.generateRandomUsername;
 
 @DisplayName("[WEB]: Авторизация")
 public class LoginPageTests extends BaseWebTest {
-    private final UserRepository userRepository = new UserRepositoryHibernate();
-    private final UserEntity authUser = new UserEntity();
-
-    @AfterEach
-    void deleteUser() {
-        if (authUser.getUsername() != null) {
-            authUser.setPassword(defaultPassword);
-            authUser.setEnabled(true);
-            authUser.setAccountNonExpired(true);
-            authUser.setAccountNonLocked(true);
-            authUser.setCredentialsNonExpired(true);
-            authUser.setAuthorities(new ArrayList<>(Arrays.stream(Authority.values())
-                    .map(a -> {
-                        AuthorityEntity ae = new AuthorityEntity();
-                        ae.setAuthority(a);
-                        ae.setUser(authUser);
-                        return ae;
-                    }).toList()));
-            userRepository.removeAfterTest(authUser);
-        }
-    }
 
     @Test
     @AllureId("1")
@@ -86,7 +65,6 @@ public class LoginPageTests extends BaseWebTest {
                 .fillConfirmPassword(defaultPassword)
                 .clickSignUp()
                 .checkAlertAfterRegistration();
-        authUser.setUsername(userName);
     }
 
     @Test

@@ -5,18 +5,20 @@ services:
     container_name: rococo-db
     image: postgres:15.1
     environment:
+      - POSTGRES_MULTIPLE_DATABASES="rococo-auth","rococo-userdata","rococo-country","rococo-artist", "rococo-painting","rococo-museum"
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "postgres" ]
       interval: 3s
       timeout: 3s
       retries: 5
-    ports:
-      - "5432:5432"
-    volumes:
-      - rococo:/var/lib/postgresql/data
-    restart: always
+    expose:
+      - "5432"
+#    ports:
+#      - "5432:5432"
     networks:
       - test-network
     dns_search: .

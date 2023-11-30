@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.rococo.model.UserJson.emptyUserJson;
-import static org.rococo.util.FakerUtils.generateRandomName;
+import static org.rococo.util.FakerUtils.generateRandomUsername;
 
 public class DbCreateUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback {
 
@@ -31,7 +31,7 @@ public class DbCreateUserExtension implements BeforeEachCallback, ParameterResol
             UserJson userJson = usersForTest(extensionContext);
             String password = userJson.getPassword().isEmpty() ? DEFAULT_PASSWORD : userJson.getPassword();
             UserEntity authUser = new UserEntity();
-            authUser.setUsername(userJson.getUsername().isEmpty() ? generateRandomName() : userJson.getUsername());
+            authUser.setUsername(userJson.getUsername().isEmpty() ? generateRandomUsername() : userJson.getUsername());
             authUser.setPassword(password);
             authUser.setEnabled(true);
             authUser.setAccountNonExpired(true);

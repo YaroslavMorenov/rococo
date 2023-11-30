@@ -51,6 +51,7 @@ public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecution
         Selenide.localStorage().setItem("codeVerifier", sessionStorageContext.getCodeVerifier());
         Cookie jsessionIdCookie = new Cookie("JSESSIONID", CookieContext.getInstance().getJSessionIdCookieValue());
         WebDriverRunner.getWebDriver().manage().addCookie(jsessionIdCookie);
+        Selenide.refresh();
     }
 
     @Override

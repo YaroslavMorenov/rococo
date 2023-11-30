@@ -34,7 +34,7 @@ public class DockerConfig implements Config {
 
     @Override
     public String rococoAuthUrl() {
-        return "http://auth.rococo.dc";
+        return "http://auth.rococo.dc:9050";
     }
 
     @Override
