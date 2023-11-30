@@ -3,7 +3,7 @@ package org.rococo.config;
 public interface Config {
 
     static Config getInstance() {
-        if ("docker".equals(System.getProperty("test.env"))) {
+        if ("docker".equals(System.getProperty("testEnv"))) {
             return DockerConfig.config;
         }
         return LocalConfig.config;

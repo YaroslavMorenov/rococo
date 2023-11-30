@@ -40,7 +40,7 @@ cd "$front" || exit
 echo "### Build frontend image ###"
 docker build -t ${IMAGE_PREFIX}/rococo-client:${FRONT_VERSION} -t ${IMAGE_PREFIX}/rococo-client:latest .
 cd ../ || exit
-docker pull selenoid/vnc_chrome:117.0
+docker pull selenoid/vnc_chrome:110.0
 docker images
 ARCH="$docker_arch" FRONT_IMAGE="$front_image" PREFIX="${IMAGE_PREFIX}" PROFILE="${PROFILE}" docker-compose -f docker-compose.test.yml up -d
 docker ps -a
